@@ -12,12 +12,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class LearningSpinnerAdapter extends BaseAdapter {
+public class LearningNamesSpinnerAdapter extends BaseAdapter {
 
     private final List<String> mLectors;
 
-    public LearningSpinnerAdapter(@NonNull List<String> mLectors) {
+    public LearningNamesSpinnerAdapter(@NonNull List<String> mLectors) {
         this.mLectors = new ArrayList<>(mLectors);
+
     }
 
     @Override
@@ -38,7 +39,9 @@ public class LearningSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null){
-            convertView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = LayoutInflater.from(
+                    parent.getContext()).inflate(
+                            android.R.layout.simple_list_item_1, parent, false);
             ViewHolder viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }

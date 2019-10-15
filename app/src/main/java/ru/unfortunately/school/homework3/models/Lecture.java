@@ -2,6 +2,7 @@ package ru.unfortunately.school.homework3.models;
 
 import androidx.annotation.NonNull;
 
+
 public class Lecture {
 
     private final String mNumber;

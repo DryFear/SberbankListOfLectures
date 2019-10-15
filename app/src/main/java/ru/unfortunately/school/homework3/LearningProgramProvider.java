@@ -1,10 +1,14 @@
 package ru.unfortunately.school.homework3;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import ru.unfortunately.school.homework3.models.Lecture;
@@ -52,11 +56,37 @@ public class LearningProgramProvider {
         return mLectures;
     }
 
+    public static Lecture provideWeekAsLecture(int n){
+        return new Lecture("", "", "Неделя " + n, "");
+    }
+
     public List<String> provideLectors(){
         Set<String> lectors = new HashSet<>();
         for (Lecture lecture: mLectures) {
             lectors.add(lecture.getmLector());
         }
         return new ArrayList<>(lectors);
+    }
+
+    public List<Lecture> provideLecturesByLector(String lector){
+        List<Lecture> result = new ArrayList<>();
+        for (Lecture lecture : mLectures) {
+            if(lecture.getmLector().equals(lector)){
+                result.add(lecture);
+            }
+        }
+        return result;
+    }
+
+    public Lecture getNextLecture(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        for(Lecture lecture: mLectures){
+            try{
+                if(format.parse(lecture.getmDate()).after(date)){
+                    return lecture;
+                }
+            }catch (ParseException e){e.printStackTrace();}
+        }
+        return mLectures.get(mLectures.size()-1);
     }
 }
