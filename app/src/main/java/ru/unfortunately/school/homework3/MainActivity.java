@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         List<Lecture> allLectures = mLearningProgramProvider.provideLectures();
         mLearningProgramAdapter.setLectures(allLectures);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        //decoration.setDrawable(getResources().getDrawable(R.drawable.rect));
 
         recyclerView.addItemDecoration(decoration);
         recyclerView.setAdapter(mLearningProgramAdapter);
