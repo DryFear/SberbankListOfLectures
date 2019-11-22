@@ -73,19 +73,6 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
     }
 
 
-//    private void onBindLecture(@NonNull BaseHolder holder, int position) {
-//        Lecture lecture = (Lecture) mList.get(position);
-//        holder.mNumber.setText(lecture.getmNumber());
-//        holder.mDate.setText(lecture.getmDate());
-//        holder.mTheme.setText(lecture.getmTheme());
-//        holder.mLector.setText(lecture.getmLector());
-//}
-//
-//    private void onBindWeek(BaseHolder holder, int position){
-//        String week = (String) mList.get(position);
-//
-//    }
-
 
     public void setLectures(List<Lecture> lectures) {
         if(lectures == null ){
@@ -107,7 +94,7 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
     private void dontSortByWeek(List<Lecture> lectures) {
 //        List<Lecture> result = new ArrayList<>();
 //        for (Lecture lecture : lectures) {
-//            if(!lecture.getmNumber().equals("")){
+//            if(!lecture.getNumber().equals("")){
 //                result.add(lecture);
 //
 //        }
@@ -118,7 +105,7 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
         List<Object> result = new ArrayList<>();
         int iterWeek = -1;
         for (Lecture lecture : lectures) {
-            int noLecture = Integer.parseInt(lecture.getmNumber())-1;
+            int noLecture = Integer.parseInt(lecture.getNumber())-1;
             if(noLecture/LECTURES_PER_WEEK > iterWeek){
                 iterWeek = noLecture/LECTURES_PER_WEEK;
                 result.add("Неделя " + (iterWeek+1));
@@ -166,10 +153,10 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
         }
 
         private void bindView(Lecture lecture){
-            mNumber.setText(lecture.getmNumber());
-            mDate.setText(lecture.getmDate());
-            mLector.setText(lecture.getmLector());
-            mTheme.setText(lecture.getmTheme());
+            mNumber.setText(lecture.getNumber());
+            mDate.setText(lecture.getDate());
+            mLector.setText(lecture.getLector());
+            mTheme.setText(lecture.getTheme());
         }
     }
 

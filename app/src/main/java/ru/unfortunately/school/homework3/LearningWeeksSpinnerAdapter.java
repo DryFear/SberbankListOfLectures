@@ -9,11 +9,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LearningWeeksSoinnerAdapter extends BaseAdapter {
+public class LearningWeeksSpinnerAdapter extends BaseAdapter {
 
     private final List<String> mChoice;
 
-    public LearningWeeksSoinnerAdapter(List<String> choice) {
+    public LearningWeeksSpinnerAdapter(List<String> choice) {
         mChoice = new ArrayList<>(choice);
     }
 
