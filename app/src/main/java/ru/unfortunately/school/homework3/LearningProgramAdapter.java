@@ -3,6 +3,7 @@ package ru.unfortunately.school.homework3;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
     private static final int VIEW_TYPE_WEEK = 1;
 
     private int mTypeOfSortByWeek;
+
+    private OnItemClickListener mOnClickListener;
 
     @NonNull
     @Override
@@ -131,13 +134,21 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
         return mList == null ? 0 : mList.size();
     }
 
+    public OnItemClickListener getOnClickListener() {
+        return mOnClickListener;
+    }
+
+    public void setOnClickListener(OnItemClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
     static abstract class BaseHolder extends RecyclerView.ViewHolder {
         public BaseHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    static class LectureHolder extends BaseHolder {
+    private class LectureHolder extends BaseHolder {
 
         private final TextView mNumber;
         private final TextView mDate;
@@ -152,11 +163,17 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
             mLector = itemView.findViewById(R.id.lector);
         }
 
-        private void bindView(Lecture lecture){
+        private void bindView(final Lecture lecture){
             mNumber.setText(lecture.getNumber());
             mDate.setText(lecture.getDate());
             mLector.setText(lecture.getLector());
             mTheme.setText(lecture.getTheme());
+            itemView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onItemClick(lecture);
+                }
+            });
         }
     }
 
@@ -174,5 +191,6 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
         private void bindView(String week){
             mTextView.setText(week);
         }
+
     }
 }

@@ -1,5 +1,8 @@
 package ru.unfortunately.school.homework3.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,7 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 
 
-public class Lecture {
+public class Lecture implements Parcelable {
 
     private final String mNumber;
     private final String mDate;
@@ -44,6 +47,24 @@ public class Lecture {
         mSubTopics = subTopics;
     }
 
+    public Lecture(Parcel source) {
+        mNumber = source.readString();
+        mDate = source.readString();
+        mLector = source.readString();
+        mTheme = source.readString();
+        mSubTopics = source.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mNumber);
+        dest.writeString(mDate);
+        dest.writeString(mLector);
+        dest.writeString(mTheme);
+        dest.writeStringList(mSubTopics);
+    }
+
+
     public String getNumber() {
         return mNumber;
     }
@@ -63,4 +84,22 @@ public class Lecture {
     public List<String> getSubTopics(){
         return new ArrayList<>(mSubTopics);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    private static final Creator<Lecture> CREATOR = new Creator<Lecture>() {
+        @Override
+        public Lecture createFromParcel(Parcel source) {
+            return new Lecture(source);
+        }
+
+        @Override
+        public Lecture[] newArray(int size) {
+            return new Lecture[size];
+        }
+    };
 }

@@ -38,8 +38,17 @@ public class MainFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private Spinner mLectorsSpinner;
     private Spinner mWeekSortSpinner;
-
     private LearningProgramAdapter mLearningProgramAdapter;
+
+    private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(Lecture lecture) {
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.root, DetailsFragment.newInstance(lecture))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
 
     private MainFragment(){
         setRetainInstance(true);
@@ -113,6 +122,7 @@ public class MainFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mLearningProgramAdapter = new LearningProgramAdapter();
         mLearningProgramAdapter.setLectures(lectures);
+        mLearningProgramAdapter.setOnClickListener(mOnItemClickListener);
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setAdapter(mLearningProgramAdapter);
