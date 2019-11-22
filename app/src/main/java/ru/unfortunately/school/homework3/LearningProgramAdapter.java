@@ -16,36 +16,80 @@ import ru.unfortunately.school.homework3.models.Lecture;
 
 
 
-public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.LectureHolder> {
+public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseHolder> {
 
-    private List<Lecture> mLectures;
+    private List<Object> mList;
 
     private static final int LECTURES_PER_WEEK = 3;
 
     public static final int SORT_BY_WEEK = 1;
     public static final int NOT_SORT_BY_WEEK = 0;
 
+    private static final int VIEW_TYPE_LECTURE = 0;
+    private static final int VIEW_TYPE_WEEK = 1;
+
     private int mTypeOfSortByWeek;
 
     @NonNull
     @Override
-    public LectureHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lecture, parent, false);
-        return new LectureHolder(view);
+    public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType){
+            case VIEW_TYPE_LECTURE:
+                View lectureView = LayoutInflater.from(parent.getContext()).
+                        inflate(R.layout.item_lecture, parent, false);
+                return new LectureHolder(lectureView);
+            case VIEW_TYPE_WEEK:
+                View weekView = LayoutInflater.from(parent.getContext()).
+                        inflate(R.layout.item_week, parent, false);
+                return new WeekHolder(weekView);
+            default:
+                throw new RuntimeException("Illegal item type");
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LectureHolder holder, int position) {
-        Lecture lecture = mLectures.get(position);
-        holder.mNumber.setText(lecture.getmNumber());
-        holder.mDate.setText(lecture.getmDate());
-        holder.mTheme.setText(lecture.getmTheme());
-        holder.mLector.setText(lecture.getmLector());
+    public int getItemViewType(int position) {
+        Object item = mList.get(position);
+        if(item instanceof Lecture){
+            return VIEW_TYPE_LECTURE;
+        }else if (item instanceof String){
+            return VIEW_TYPE_WEEK;
+        }else throw new RuntimeException("Illegal item in list");
     }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
+        Object item = mList.get(position);
+        switch (getItemViewType(position)){
+            case VIEW_TYPE_LECTURE:
+                ((LectureHolder)holder).bindView((Lecture)item);
+                break;
+            case VIEW_TYPE_WEEK:
+                ((WeekHolder)holder).bindView((String) item);
+                break;
+            default:
+                throw new RuntimeException("Illegal item in list");
+        }
+    }
+
+
+//    private void onBindLecture(@NonNull BaseHolder holder, int position) {
+//        Lecture lecture = (Lecture) mList.get(position);
+//        holder.mNumber.setText(lecture.getmNumber());
+//        holder.mDate.setText(lecture.getmDate());
+//        holder.mTheme.setText(lecture.getmTheme());
+//        holder.mLector.setText(lecture.getmLector());
+//}
+//
+//    private void onBindWeek(BaseHolder holder, int position){
+//        String week = (String) mList.get(position);
+//
+//    }
+
 
     public void setLectures(List<Lecture> lectures) {
         if(lectures == null ){
-            mLectures = new ArrayList<>();
+            mList = new ArrayList<>();
         }
         else{
             switch (mTypeOfSortByWeek){
@@ -61,40 +105,52 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.Lectu
     }
 
     private void dontSortByWeek(List<Lecture> lectures) {
-        List<Lecture> result = new ArrayList<>();
-        for (Lecture lecture : lectures) {
-            if(!lecture.getmNumber().equals("")){
-                result.add(lecture);
-            }
-        }
-        mLectures = new ArrayList<>(result);
+//        List<Lecture> result = new ArrayList<>();
+//        for (Lecture lecture : lectures) {
+//            if(!lecture.getmNumber().equals("")){
+//                result.add(lecture);
+//
+//        }
+        mList = new ArrayList<Object>(lectures);
     }
 
     private void sortByWeek(List<Lecture> lectures) {
-        List<Lecture> result = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
         int iterWeek = -1;
         for (Lecture lecture : lectures) {
             int noLecture = Integer.parseInt(lecture.getmNumber())-1;
             if(noLecture/LECTURES_PER_WEEK > iterWeek){
                 iterWeek = noLecture/LECTURES_PER_WEEK;
-                result.add(LearningProgramProvider.provideWeekAsLecture(iterWeek+1));
+                result.add("Неделя " + (iterWeek+1));
             }
             result.add(lecture);
         }
-        mLectures = new ArrayList<>(result);
+        mList = new ArrayList<>(result);
     }
 
     public void setTypeOfSortByWeek(int type){
         mTypeOfSortByWeek = type;
-        setLectures(mLectures);
+        List<Lecture> lectures = new ArrayList<>();
+        for (int i = 0; i < mList.size(); i++) {
+            if(getItemViewType(i) == VIEW_TYPE_LECTURE){
+                lectures.add((Lecture) mList.get(i));
+            }
+        }
+        setLectures(lectures);
     }
 
     @Override
     public int getItemCount() {
-        return mLectures == null ? 0 : mLectures.size();
+        return mList == null ? 0 : mList.size();
     }
 
-    static class LectureHolder extends RecyclerView.ViewHolder{
+    static abstract class BaseHolder extends RecyclerView.ViewHolder {
+        public BaseHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class LectureHolder extends BaseHolder {
 
         private final TextView mNumber;
         private final TextView mDate;
@@ -107,6 +163,29 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.Lectu
             mDate = itemView.findViewById(R.id.date);
             mTheme = itemView.findViewById(R.id.theme);
             mLector = itemView.findViewById(R.id.lector);
+        }
+
+        private void bindView(Lecture lecture){
+            mNumber.setText(lecture.getmNumber());
+            mDate.setText(lecture.getmDate());
+            mLector.setText(lecture.getmLector());
+            mTheme.setText(lecture.getmTheme());
+        }
+    }
+
+
+
+    static class WeekHolder extends BaseHolder{
+
+        private final TextView mTextView;
+
+        public WeekHolder(@NonNull View itemView) {
+            super(itemView);
+            mTextView = itemView.findViewById(R.id.text_view_week);
+        }
+
+        private void bindView(String week){
+            mTextView.setText(week);
         }
     }
 }
