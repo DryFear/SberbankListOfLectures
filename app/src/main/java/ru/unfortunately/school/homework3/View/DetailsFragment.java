@@ -1,4 +1,4 @@
-package ru.unfortunately.school.homework3;
+package ru.unfortunately.school.homework3.View;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import ru.unfortunately.school.homework3.R;
+import ru.unfortunately.school.homework3.Adapters.SubtopicsAdapter;
 import ru.unfortunately.school.homework3.models.Lecture;
 
 public class DetailsFragment extends Fragment {

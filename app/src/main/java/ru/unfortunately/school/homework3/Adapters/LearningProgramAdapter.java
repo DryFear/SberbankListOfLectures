@@ -1,4 +1,4 @@
-package ru.unfortunately.school.homework3;
+package ru.unfortunately.school.homework3.Adapters;
 
 
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
+import ru.unfortunately.school.homework3.R;
+import ru.unfortunately.school.homework3.View.OnItemClickListener;
 import ru.unfortunately.school.homework3.models.Lecture;
 
 
@@ -95,12 +97,6 @@ public class LearningProgramAdapter extends Adapter<LearningProgramAdapter.BaseH
     }
 
     private void dontSortByWeek(List<Lecture> lectures) {
-//        List<Lecture> result = new ArrayList<>();
-//        for (Lecture lecture : lectures) {
-//            if(!lecture.getNumber().equals("")){
-//                result.add(lecture);
-//
-//        }
         mList = new ArrayList<Object>(lectures);
     }
 

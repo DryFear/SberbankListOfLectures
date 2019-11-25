@@ -1,8 +1,9 @@
-package ru.unfortunately.school.homework3;
+package ru.unfortunately.school.homework3.View;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.unfortunately.school.homework3.R;
 
 public class MainActivity extends AppCompatActivity {
 

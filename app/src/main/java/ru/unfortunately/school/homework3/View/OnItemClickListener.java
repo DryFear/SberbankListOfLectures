@@ -1,4 +1,4 @@
-package ru.unfortunately.school.homework3;
+package ru.unfortunately.school.homework3.View;
 
 import ru.unfortunately.school.homework3.models.Lecture;
 

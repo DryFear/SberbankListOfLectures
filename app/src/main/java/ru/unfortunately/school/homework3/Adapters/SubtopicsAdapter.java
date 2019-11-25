@@ -1,4 +1,4 @@
-package ru.unfortunately.school.homework3;
+package ru.unfortunately.school.homework3.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import ru.unfortunately.school.homework3.R;
 
 public class SubtopicsAdapter extends RecyclerView.Adapter<SubtopicsAdapter.Holder> {
 

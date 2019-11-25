@@ -1,4 +1,4 @@
-package ru.unfortunately.school.homework3;
+package ru.unfortunately.school.homework3.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
